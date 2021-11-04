@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="upper_link">
+
+    <xacro:macro name="upper_link" params="name inertial_xyz joint_xyz">
+        <link name="${name}_upper_link">
+            <inertial>
+                <origin xyz="${inertial_xyz}" rpy="0 0 0" />
+                <mass value="0.49014" />
+                <inertia ixx="0.00034371" ixy="9.1474E-06" ixz="2.5813E-06"
+                         iyy="0.022204" iyz="-2.0702E-05" izz="0.022168" />
+            </inertial>
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://agv_description/meshes/${name}_upper_link.STL" />
+                </geometry>
+                <material name="">
+                    <color rgba="0.79216 0.81961 0.93333 1" />
+                </material>
+            </visual>
+            <collision>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://agv_description/meshes/${name}_upper_link.STL" />
+            </geometry>
+            </collision>
+        </link>
+        <joint name="base_to_${name}_upper_link" type="fixed">
+            <origin xyz="${joint_xyz}" rpy="0 0 0" />
+            <parent link="base_link" />
+            <child link="${name}_upper_link" />
+            <axis xyz="0 0 0" />
+        </joint>
+    </xacro:macro>
+
+</robot>

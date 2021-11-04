@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="agv_robot">
+
+    <xacro:include filename="$(find agv_description)/urdf/agv.gazebo.xml"/>
+
+    <!-- base_footprint -->
+    <link name="base_footprint"/>
+
+    <!-- base_link -->
+    <link name="base_link">
+        <inertial>
+            <origin xyz="-1.51807472482668E-05 2.79346181472073E-05 0.0866200775222906" rpy="0 0 0" />
+            <mass value="64.7171962068877" />
+            <inertia ixx="1.42225890496994" ixy="-0.000392754943773645" ixz="0.0708650035684445"
+                     iyy="3.51249641237205" iyz="-0.000160647777377098" izz="4.57970566976989" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://agv_description/meshes/base_link.STL" />
+            </geometry>
+            <material name="">
+                <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://agv_description/meshes/base_link.STL" />
+            </geometry>
+        </collision>
+    </link>
+
+    <!-- base_footprint -> base_link joint -->
+    <joint name="base_footprint_joint" type="fixed">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <parent link="base_footprint"/>
+        <child link="base_link"/>
+    </joint>
+
+    <!-- Wheel and joint macro -->
+    <xacro:include filename="$(find agv_description)/urdf/wheel.urdf.xacro"/>
+
+    <!-- Create left and right wheel/joint -->
+    <xacro:wheel name="right" inertial_xyz="-1.1102E-16 0.026 2.2204E-16" joint_xyz="-0.1621 -0.242 0.066"  />
+    <xacro:wheel name="left" inertial_xyz="-1.1102E-16 -0.026 -1.6653E-16" joint_xyz="-0.1621 0.242 0.066" />  
+
+    <!-- Caster wheel and joint macro -->
+    <xacro:include filename="$(find agv_description)/urdf/caster.urdf.xacro"/>
+    
+    <!-- Create 3 caster wheels -->
+    <xacro:caster name="left" inertial_xyz="8.9465E-08 -5.5511E-17 0.019764" joint_xyz="0.3504 0.18406 0"/>
+    <xacro:caster name="right" inertial_xyz="8.9465E-08 -2.2204E-16 0.019764" joint_xyz="0.35023 -0.18491 0"/>
+    <xacro:caster name="back" inertial_xyz="8.9465E-08 0 0.019764" joint_xyz="-0.31668 -0.0019708 0"/>
+
+    <!-- Lidar link and joint macro -->
+    <xacro:include filename="$(find agv_description)/urdf/lidar.urdf.xacro"/>
+
+    <!-- Create 2 lidars -->
+    <xacro:lidar name="front" inertial_xyz="9.7076E-09 0 0.024888" joint_xyz="0.2379 0 0.1802" joint_rpy="0 0 0"/>
+    <xacro:lidar name="back" inertial_xyz="9.7076E-09 -4.4409E-16 0.024888" joint_xyz="-0.3391 0 0.1802" joint_rpy="0 0 3.14"/>
+
+    <!-- Upper link and joint macro -->
+    <xacro:include filename="$(find agv_description)/urdf/upper_link.urdf.xacro"/>
+
+    <!-- Create 2 upper links -->
+    <xacro:upper_link name="left" inertial_xyz="-0.0002986 0.0023744 0.043863" joint_xyz="-0.0471 0.2 0.17"/>
+    <xacro:upper_link name="right" inertial_xyz="-0.0002986 0.0023744 0.043863" joint_xyz="-0.0471 -0.2 0.17"/>
+
+</robot>

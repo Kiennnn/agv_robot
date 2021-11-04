@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<launch>
+
+    <master auto="start"/>
+    <!-- Run the map server --> 
+    <node name="map_server" pkg="map_server" type="map_server" args="$(find agv_navigation)/maps/maze.yaml"/>
+
+    <include file="$(find agv_gazebo)/launch/maze.launch" />
+
+    <!-- robot_state_publisher -->
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher"></node>
+  
+    <!-- joint_state_publisher -->
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+        <param name="use_gui" value="False"/>
+    </node>
+
+    <!-- rviz.launch -->
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find agv_description)/rviz/config.rviz"/>
+
+    <!--- Run AMCL --> 
+    <include file="$(find agv_navigation)/launch/amcl.launch" />
+
+    <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+        <rosparam file="$(find agv_navigation)/params/costmap_common_params.yaml" command="load" ns="global_costmap" /> 
+        <rosparam file="$(find agv_navigation)/params/costmap_common_params.yaml" command="load" ns="local_costmap" />
+        <rosparam file="$(find agv_navigation)/params/local_costmap_params.yaml" command="load" />
+        <rosparam file="$(find agv_navigation)/params/global_costmap_params.yaml" command="load" /> 
+        <rosparam file="$(find agv_navigation)/params/base_local_planner_params.yaml" command="load" />
+    </node>
+
+</launch> 

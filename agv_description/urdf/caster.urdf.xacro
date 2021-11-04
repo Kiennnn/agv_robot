@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="caster">
+
+    <xacro:macro name="caster" params="name inertial_xyz joint_xyz">
+        <link name="${name}_caster">
+            <inertial>
+                <origin xyz="${inertial_xyz}" rpy="0 0 0" />
+                <mass value="0.25623" />
+                <inertia ixx="0.00017108" ixy="-2.4081E-10" ixz="-5.2581E-12"
+                         iyy="0.00016998" iyz="1.9178E-19" izz="0.00027267" />
+            </inertial>
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://agv_description/meshes/${name}_caster.STL" />
+                </geometry>
+                <material name="">
+                    <color rgba="0.79216 0.81961 0.93333 1" />
+                </material>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://agv_description/meshes/${name}_caster.STL" />
+                </geometry>
+            </collision>
+        </link>
+
+        <joint name="base_to_${name}_caster" type="continuous">
+            <origin xyz="${joint_xyz}" rpy="0 0 0" />
+            <parent link="base_link" />
+            <child link="${name}_caster" />
+            <axis xyz="0 0 1" />
+        </joint>
+    </xacro:macro>
+
+</robot>
