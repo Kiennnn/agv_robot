@@ -95,7 +95,7 @@
   <gazebo reference="front_lidar">
     <sensor type="ray" name="front_hokuyo_sensor">
       <pose>0 0 0 0 0 0</pose>
-      <visualize>true</visualize>
+      <visualize>false</visualize>
       <update_rate>40</update_rate>
       <ray>
         <scan>
@@ -128,7 +128,7 @@
   <gazebo reference="back_lidar">
     <sensor type="ray" name="back_hokuyo_sensor">
       <pose>0 0 0 0 0 0</pose>
-      <visualize>true</visualize>
+      <visualize>false</visualize>
       <update_rate>40</update_rate>
       <ray>
         <scan>
